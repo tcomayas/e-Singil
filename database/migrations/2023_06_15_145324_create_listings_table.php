@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('product');
             $table->string('category');
             $table->integer('quantity');
+            $table->integer('cost');
             $table->string('price');
-            $table->string('expiry');
-            $table->string('sizes');
+            $table->string('expiry')->nullable();
             $table->string('logo')->nullable();
             $table->longText('description');
             $table->timestamps();

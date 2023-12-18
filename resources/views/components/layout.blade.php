@@ -17,21 +17,16 @@
     <script src="{{ asset('assets/js/chart.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stickybits@3.7.7/dist/stickybits.min.js"></script>
 
     <style>
-        /* Add this CSS to your existing styles */
-
-        /* Default styles for larger screens */
         .nav-wrapper {
             width: 240px;
-            /* Adjust the width as needed */
         }
 
-        /* Responsive styles for smaller screens */
         @media (max-width: 768px) {
             .nav-wrapper {
                 width: 100%;
-                /* Make the width 100% for smaller screens */
             }
 
             .nav-wrapper ul {
@@ -46,7 +41,6 @@
 
     <script>
         const axios = require('axios');
-        // Set tailwind.config properly
         const tailwind = {};
         tailwind.config = {
             theme: {
@@ -73,33 +67,76 @@
             </a>
             <ul class="flex mr-6 space-x-6">
                 @auth
-                    <li x-data="{ open: false }" class="relative">
-                        <div class="flex gap-1">
-                            <button @click="open = !open"
-                                class="inline-flex px-4 rounded-md text-dark focus:outline-none focus:border-blue-300 focus:shadow-outline-blue hover:text-white">
-                                <i class="mx-2 mt-1 fas fa-user"></i> {{ auth()->user()->name }}
-                                <svg class="w-4 h-4 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7">
-                                    </path>
-                                </svg>
-                            </button>
+                    <div class="flex flex-row text-lg">
+                        <div class="relative inline-block text-left">
+                            <div>
+                                @php
+                                    $var = 0;
+                                    foreach ($notifs as $not) {
+                                        if ($not->status == 'unread') {
+                                            $var += 1;
+                                        }
+                                    }
+                                @endphp
+                                <button type="button"
+                                    class="inline-flex w-full justify-center gap-x-1.5 rounded-md border-none px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+                                    id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                    <i
+                                        @if ($var > 0) class="text-orange-400 fa-solid fa-bell" @else
+                                        class="fa-regular fa-bell" @endif></i></button>
+                            </div>
+
+                            <div class="absolute right-0 z-10 hidden w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
+                                id="notif" style="max-height: 400px; overflow-y: scroll;">
+                                <div class="p-1" style="position: relative;" role="none">
+                                    <form method="POST" action="/notification/clear">
+                                        @csrf
+                                        <button type="submit" style="font-size: 14px;" class="mb-4">Read
+                                            All</button>
+                                    </form>
+                                    <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                    @foreach ($notifs as $notif)
+                                        <div style="border-bottom: 1px solid gray;"
+                                            @if ($notif->status == 'unread') class="font-bold text-dark"
+                                            @else
+                                            class="text-gray" @endif>
+                                            <span style="font-size: 14px; ">{{ $notif->message }}</span>
+                                        </div>
+                                    @endforeach
+
+                                </div>
+                            </div>
                         </div>
-                        <div x-show="open" @click.away="open = false"
-                            class="absolute left-0 z-50 p-2 mt-2 bg-white border border-gray-300 rounded-md shadow-lg text-start">
-                            <a href="/listings/manage" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <i class="mr-2 fa-solid fa-gear"></i> Manage Products
-                            </a>
-                            <form method="POST" action="/logout"
-                                class="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100">
-                                @csrf
-                                <button type="submit">
-                                    <i class="mr-2 fa-solid fa-door-closed"></i> Logout
+
+                        <li x-data="{ open: false }" class="relative">
+                            <div class="flex gap-1">
+                                <button @click="open = !open"
+                                    class="inline-flex px-4 rounded-md text-dark focus:outline-none focus:border-blue-300 focus:shadow-outline-blue hover:text-blue-500">
+                                    <i class="mx-2 mt-1 fas fa-user"></i> {{ auth()->user()->name }}
+                                    <svg class="w-4 h-4 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7">
+                                        </path>
+                                    </svg>
                                 </button>
-                            </form>
-                        </div>
-                    </li>
+                            </div>
+                            <div x-show="open" @click.away="open = false"
+                                class="absolute left-0 z-50 p-2 mt-2 bg-white border border-gray-300 rounded-md shadow-lg text-start">
+                                <a href="/users/listings/manage" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="mr-2 fa-solid fa-gear"></i> Manage Products
+                                </a>
+                                <form method="POST" action="/logout"
+                                    class="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100">
+                                    @csrf
+                                    <button type="submit">
+                                        <i class="mr-2 fa-solid fa-door-closed"></i> Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    </div>
                 @else
                     <li>
                         <a href="../register" class="hover:text-laravel">
@@ -140,11 +177,6 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="#" class="flex items-center text-dark hover:text-gray-300">
-                                <span class="mr-2"><i class="fas fa-chart-bar"></i></span> REPORT
-                            </a>
-                        </li>
-                        <li class="mb-4">
                             <a href="/pending">
                                 <i class="fa-solid fa-clock-rotate-left"></i> <span>PENDING</span>
                             </a>
@@ -165,7 +197,8 @@
                                 Register</a>
                         </li>
                         <li>
-                            <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i>
+                            <a href="/login" class="hover:text-laravel"><i
+                                    class="fa-solid fa-arrow-right-to-bracket"></i>
                                 Login</a>
                         </li>
                     @endauth
@@ -175,15 +208,22 @@
                             <span class="mr-2"><i class="fas fa-box"></i></span> PRODUCTS
                         </a>
                     </li>
+
+                    <li class="mb-4">
+                        <a href="/sales" class="flex items-center text-dark hover:text-gray-300">
+                            <span class="mr-2"><i class="fa-solid fa-peso-sign"></i></span> SALES
+                        </a>
+                    </li>
                 </ul>
             </nav>
     @endif
     </nav>
 
+
     <main class="w-full">
         {{ $slot }}
     </main>
-    @if (!request()->is('login', 'register', 'debtor-payment', 'debtor-profile'))
+    @if (!request()->is('login', 'register', 'debtor-payment', 'debtor-profile', 'pending'))
         <footer
             class="fixed bottom-0 left-0 flex items-center justify-start w-full h-24 mt-24 font-bold opacity-90 md:justify-center">
             <a href="/users/listings/create"
@@ -202,6 +242,10 @@
             var menuBtn = document.querySelector('.menu-btn');
             menuBtn.classList.toggle('active');
         }
+
+        document.querySelector('#menu-button').addEventListener('click', function() {
+            document.querySelector('#notif').classList.toggle('hidden');
+        });
     </script>
 
 </body>

@@ -1,22 +1,22 @@
+<style scoped>
+    @media (max-width: 640px) {
+        #search {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+</style>
+
 <form action="/">
-    <div class="flex justify-end">
-        <div class="relative border-2 border-gray-100 mt-4 mb-4 rounded-lg w-100 flex">
-            <div class="relative top-4 mx-2">
-                <i
-                    class="fa fa-search text-gray-400 z-20 hover:text-gray-500"
-                ></i>
+    <div class="flex justify-end" id="search">
+        <div class="relative flex mt-4 mb-4 border-2 border-gray-100 rounded-lg w-100">
+            <div class="relative mx-2 top-4">
             </div>
-            <input
-                type="text"
-                name="search"
-                class="h-14 w-full pr-20 rounded-lg z-0 focus:shadow focus:outline-none"
-                placeholder="Search Product..."
-            />
+            <input type="text" name="search" class="z-0 w-full pr-20 rounded-lg h-14 focus:shadow focus:outline-none"
+                placeholder="Search Product..." />
             <div class="absolute top-2 right-2">
-                <button
-                    type="submit"
-                    class="h-10 w-20 text-black rounded-lg bg-blue-300 hover:bg-green-600 opacity-90"
-                >
+                <button type="submit"
+                    class="w-20 h-10 text-black bg-blue-300 rounded-lg hover:bg-green-600 opacity-90">
                     Search
                 </button>
             </div>

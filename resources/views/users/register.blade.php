@@ -2,7 +2,8 @@
     <x-card class="w-4/5 h-full p-5 mx-auto mt-5">
         <div class="flex">
             <div id="first" class="flex-1">
-                <a href="/"><img class="w-3/4 h-full rounded" src="{{ asset('images/store.jpg') }}" alt=""/></a>
+                <a href="/"><img class="w-3/4 h-full rounded" src="{{ asset('images/store.jpg') }}"
+                        alt="" /></a>
             </div>
 
             <div class="flex-1 mt-24">
@@ -18,7 +19,7 @@
                         <label for="photo" class="inline-block mb-2 text-lg">
                             Profile Picture
                         </label>
-                        <input type="file" class="w-full p-2 border border-gray-200 rounded" name="photo"
+                        <input type="file" capture class="w-full p-2 border border-gray-200 rounded" name="photo"
                             value="{{ old('photo') }}" />
 
                         @error('photo')
@@ -46,6 +47,18 @@
                             value="{{ old('address') }}" />
 
                         @error('address')
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="phone" class="inline-block mb-2 text-lg">
+                            Phone Number
+                        </label>
+                        <input type="number" class="w-full p-2 border border-gray-200 rounded" name="phone"
+                            value="{{ old('phone') }}" />
+
+                        @error('phone')
                             <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                         @enderror
                     </div>

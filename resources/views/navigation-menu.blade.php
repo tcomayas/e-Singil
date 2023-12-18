@@ -1,3 +1,5 @@
+@props(['notifs'])
+
 <nav x-data="{ open: false }" class="bg-white border-gray-800 shadow-md shadow-gray-400 border-gray">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -16,7 +18,9 @@
                         {{ __('e-Singil') }}
                     </x-nav-link>
                 </div>
+
             </div>
+
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
@@ -39,6 +43,7 @@
                             </x-slot>
 
                             <x-slot name="content">
+
                                 <div class="w-60">
                                     <!-- Team Management -->
                                     <div class="block px-4 py-2 text-xs text-gray-400">
@@ -73,6 +78,39 @@
                         </x-dropdown>
                     </div>
                 @endif
+
+                <div>
+                    <div class="relative inline-block text-left">
+                        <div>
+                            <button type="button"
+                                class="inline-flex w-full justify-center gap-x-1.5 rounded-md border-none px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+                                id="menu-button" aria-expanded="true" aria-haspopup="true"><i
+                                    class="fa-regular fa-bell"></i></button>
+                        </div>
+
+                        <div class="absolute right-0 z-10 hidden w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
+                            id="notif">
+                            <div class="p-1" style="position: relative;" role="none">
+                                <form method="POST" action="/notification/clear">
+                                    @csrf
+                                    <button type="submit" style="font-size: 14px;" class="mb-4">Read
+                                        All</button>
+                                </form>
+                                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                {{-- @foreach ($notifs as $notif)
+                                    <div style="border-bottom: 1px solid gray;"
+                                        @if ($notif->status == 'unread') class="font-bold text-dark"
+                                        @else
+                                        class="text-gray" @endif>
+                                        <span style="font-size: 14px; ">{{ $notif->message }}</span>
+                                    </div>
+                                @endforeach --}}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Settings Dropdown -->
                 <div class="relative ml-3">

@@ -1,20 +1,73 @@
+<style scoped>
+    .user-card img {
+        widows: 250px;
+        height: 250px;
+    }
+
+    #separator {
+        display: flex;
+    }
+
+    @media screen and (max-width: 1024px) {
+        #separator {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-card {
+            height: 300px;
+        }
+
+        .user-card img {
+            height: 200px;
+            width: 200px;
+        }
+
+        #totalDebt {
+            margin-left: 40px;
+            margin-top: 30px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        #username {
+            font-size: 15px;
+        }
+
+        p {
+            font-size: 12px;
+        }
+    }
+</style>
+
 <x-app-layout>
     <div class="flex gap-2">
         <x-sidebar></x-sidebar>
-        <div class="flex flex-row gap-2">
+        <div class="flex flex-row gap-2" id="separator">
             <div class="grid grid-col col">
-                <div class="">
+                <div class="user-card">
+
                     <div class="p-5 mt-5 text-center border shadow-md user-card border-gray">
-                        <img src="{{ asset('storage/images/' . $user->photo) }}" alt="Photo" class="w-full mx-auto"
-                            style="width: 250px; height: 250px;">
-                        <h3 class="text-lg font-bold">{{ $user->name }}</h3>
-                        <p>{{ $user->address }}</p>
-                        <p class="font-bold">{{ $user->email }}</p>
+                        <img src="{{ asset('storage/images/' . $user->photo) }}" alt="Photo" class="w-full mx-auto">
+                        <div class="flex flex-row gap-4 mt-5">
+                            <div class="font-bold text-start">
+                                <h3>Name:</h3>
+                                <h3>Address:</h3>
+                                <h3>Phone:</h3>
+                                <h3>Email:</h3>
+                            </div>
+                            <div class="text-start">
+                                <h3 class="text-lg font-bold" id="username">{{ $user->name }}</h3>
+                                <p>{{ $user->address }}</p>
+                                <p>{{ $user->phone }}</p>
+                                <p class="font-bold">{{ $user->email }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div>
-                    <x-card class="p-3 text-center ">
+                    <x-card class="p-3 text-center" id="totalDebt">
                         <h4>Total Debt</h4>
                         @if (count($user->total_debt) != 0)
                             <p class="font-bold">{{ $user->total_debt[0]->totaldebt }}</p>
@@ -27,10 +80,9 @@
                 </div>
             </div>
 
-            <div class="flex flex-1 mt-5 shadow-md shadow-gray-400"
-                style="max-height: 81.5vh; overflow-y: scroll; width: 66vw">
+            <div class="mt-5 shadow-md shadow-gray-400" style="max-height: 81.5vh; overflow-y: scroll; width: 66vw">
                 @if (count($carts) === 0)
-                    <h2 class="mx-auto mt-10 font-bold">You have no current debt!</h2>
+                    <h2 class="mx-5 mt-10 font-bold">You have no current debt!</h2>
                 @else
                     <table class="w-full text-center bg-white border border-gray-300 ">
                         <thead>

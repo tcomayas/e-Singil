@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :notifs='$notifs'>
     @include('partials._search')
     <a href="/" class="inline-block mb-4 ml-4 text-black">
         <i class="fa-solid fa-arrow-left"></i> Back

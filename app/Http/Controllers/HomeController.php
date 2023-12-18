@@ -13,12 +13,12 @@ class HomeController extends Controller
         $role = Auth::user()->role;
 
         if($role == '1'){
-            return view('dashboard',  [
+            return view('dashboard',  ['message' => "Login Successfully!", 'icon' => "Success", 'title' => "SUCCESS",
                 'listings' => Listing::latest()->filter(request(['sizes', 'search']))->paginate(10)
             ]);
         }
         if($role == '0'){
-            return view('debtor', [
+            return view('debtor', ['message' => "Login Successfully!", 'icon' => "Success", 'title' => "SUCCESS",
                 'listings' => Listing::latest()->filter(request(['sizes', 'search']))->paginate(10)
             ]);
         }

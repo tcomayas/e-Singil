@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->bigInteger('totaldebt')->default(0);
+            $table->datetime('duedate');
             $table->enum('status', ['Active', 'Complete'])->default('Active');
             $table->timestamps();
         });

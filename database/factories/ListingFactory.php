@@ -22,7 +22,6 @@ class ListingFactory extends Factory
             'quantity' => $this->faker->numberBetween(1, 200),
             'price' => $this->faker->numberBetween(10,50),
             'expiry' => $this->faker->date(),
-            'sizes' => 's, m, l',
             'description' => $this->faker->paragraph(5),
         ];
     }

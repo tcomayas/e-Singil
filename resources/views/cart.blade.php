@@ -8,18 +8,25 @@
                 @else
                     @foreach ($carts as $cart)
                         <x-card class="mt-4 h-30 w-60">
-                            <div class="flex flex-col items-center p-5 text-center">
+                            <h3 class="text-center">{{ $cart->id }}</h3>
+                            <div class="flex flex-row items-center gap-4 p-5 text-center">
                                 <div>
-                                    <p class="mb-4 text-xl font-bold">{{ $cart->listing->product }}</p>
-                                    <p class="mb-4 text-xl font-bold">{{ $cart->listing->category }}</p>
-                                    <p class="mb-4 text-xl font-bold">{{ $cart->quantity }}</p>
-                                    <p class="mb-4 text-xl font-bold">{{ $cart->created_at->diffForHumans() }}</p>
+                                    <h3 class="font-bold text-start ">Item:</h3>
+                                    <h3 class="font-bold text-start ">Quantity:</h3>
+                                    <h3 class="font-bold text-start ">Total Price: </h3>
+                                    <h3 class="font-bold text-start ">Time: </h3>
+                                </div>
+                                <div class="text-start">
+                                    <p>{{ $cart->listing->product }}</p>
+                                    <p>{{ $cart->quantity }} pc/s</p>
+                                    <p>₱{{ $cart->listing->price * $cart->quantity }}</p>
+                                    <p>{{ $cart->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
                         </x-card>
                     @endforeach
                 @endif
-
+                <x-flash-message></x-flash-message>
             </div>
         </div>
     </div>

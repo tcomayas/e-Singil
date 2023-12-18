@@ -37,6 +37,10 @@
         .main-menu ul li {
             display: hidden;
         }
+
+        .main-menu ul li a {
+            font-size: 12px;
+        }
     }
 </style>
 
@@ -58,6 +62,8 @@
             </li>
             <li class="px-4 py-2"><a href="/debtor-history" class="block"><i
                         class="fa-solid fa-history"></i>History</a></li>
+            <li class="px-4 py-2" style="font-size: 15px"><a href="/debtor-notification"><i
+                        class="fa-solid fa-bell"></i>Notification</a></li>
         </ul>
     </nav>
 
@@ -68,6 +74,7 @@
         btnMenu.addEventListener('click', () => {
             if (mainMenu.style.display === 'none' || mainMenu.style.display === '') {
                 mainMenu.style.display = 'block';
+                mainMenu.style.width = '120px';
             } else {
                 mainMenu.style.display = 'none';
             }

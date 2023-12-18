@@ -11,6 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\TotalDebt;
 use App\Models\Carts;
+use App\Models\Payment;
 
 class User extends Authenticatable
 {
@@ -28,7 +29,7 @@ class User extends Authenticatable
     protected $fillable = [
         'photo',
         'name',
-        'phone_number',
+        'phone',
         'email',
         'password',
     ];
@@ -69,5 +70,9 @@ class User extends Authenticatable
 
     public function carts(){
         return $this->hasMany(Carts::class);
+    }
+
+    public function payment(){
+        return $this->hasMany(Payment::class);
     }
 }

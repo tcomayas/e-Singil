@@ -24,12 +24,14 @@ class UserController extends Controller
 {
     $request->validate([
         // ... other validation rules
-        'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules as needed
+        'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'phone' => 'required|regex:/^[a-zA-Z0-9\s\-\+\(\)]*$/|min:10',
     ]);
 
     $user = new User();
     $user->name = $request->input('name');
     $user->address = $request->input('address');
+    $user->phone = $request->input('phone');
     $user->email = $request->input('email');
     $user->password = bcrypt($request->input('password'));
 
@@ -47,9 +49,8 @@ class UserController extends Controller
 
     $user->save();
 
-    return redirect('/')->with('success', 'User created successfully!');
+    return redirect('/')->with(['message' => "Registered Successfully!", 'icon' => "Success", 'title' => "SUCCESS"]);
 }
-
 
     // Logout User
     public function logout(Request $request){
@@ -58,12 +59,12 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('message', 'You have been logged out!');
+        return redirect('/')->with(['message' => "You have been logged out!", 'icon' => 'success', 'title' => 'SUCCESS']);
     }
 
     // Show Login Form
     public function login(){
-        return view('users.login');
+        return view('users.login')->with(['message' => "Login Success!", 'icon' => 'success', 'title' => 'SUCCESS']);
     }
 
     // Authenticate User
@@ -79,12 +80,13 @@ class UserController extends Controller
             $role = Auth::user()->role;
 
             if ($role == '1') {
-                return view('dashboard', [
+
+                return view('dashboard', ['message' => "Login Successfully!", 'icon' => 'success', 'title' => 'SUCCESS',
                     'listings' => Listing::latest()->filter($request->only(['sizes', 'search']))->paginate(10)
                 ]);
             }
             if ($role == '0') {
-                return view('debtor', [
+                return view('debtor', ['message' => "Login Successfully!", 'icon' => 'Success', 'title' => 'SUCCESS',
                     'listings' => Listing::latest()->filter($request->only(['sizes', 'search']))->paginate(10)
                 ]);
             }

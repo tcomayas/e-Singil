@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :notifs='$notifs'>
     @include('partials._search')
 
     <div class="w-full p-5" style="max-height: 60vh; overflow-y: scroll; width: 85vw">

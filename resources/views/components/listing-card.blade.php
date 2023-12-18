@@ -1,18 +1,45 @@
 @props(['listing'])
+<style scoped>
+    button:hover {
+        background-color: blue;
+    }
 
-<x-card>
-    <div class="flex p-5 text-center">
+    @media screen and (max-width: 1024px) {
+        #card {
+            height: 50%;
+            padding: 1px !important;
+        }
+
+        h3 {
+            font-size: 15px !important;
+        }
+
+        #category {
+            font-size: 12px;
+            margin-bottom: 1px;
+        }
+
+        #quantity,
+        #price,
+        #expiry {
+            font-size: 10px;
+            margin-bottom: 1px;
+        }
+    }
+</style>
+<x-card id="card">
+    <div class="flex items-center p-5 text-center">
         <div>
             <h3 class="text-2xl">
                 <a href="/listings/{{ $listing->id }}">{{ $listing->product }}</a>
             </h3>
-            <div class="mb-4 text-xl font-bold"><i class="fa-solid fa-book"></i> {{ $listing->category }}</div>
+            <div class="mb-4 text-xl font-bold" id="category"><i class="fa-solid fa-book"></i> {{ $listing->category }}
+            </div>
             @if (auth()->check() && auth()->user()->id == '1')
-                <div class="text-xl font-bold text-center">{{ $listing->quantity }}</div>
+                <div class="text-xl font-bold text-center" id="quantity">QTY: {{ $listing->quantity }}</div>
             @endif
-            <div class="text-xl font-bold text-center">₱{{ $listing->price }}</div>
-            <x-listing-tags :sizesCsv="$listing->sizes" />
-            <div class="mt-4 text-lg">
+            <div class="text-xl font-bold text-center" id="price">₱{{ $listing->price }}</div>
+            <div class="mt-4 text-lg" id="expiry">
                 <i class="fa-solid fa-calendar"></i>
                 {{ $listing->expiry }}
             </div>
@@ -20,8 +47,10 @@
             <div class="mt-4 text-center">
                 @if (auth()->check() && auth()->user()->id !== $listing->user_id)
                     <!-- Button to trigger the Buy Now modal -->
-                    <button type="button" class="font-bold btn btn-dark"
-                        onclick="openBuyNowModal('{{ $listing->id }}')">Buy
+                    <button type="button"
+                        class="px-4 py-2 font-semibold text-blue-700 bg-blue-400 border rounded hover:bg-orange-700 hover:text-white hover:border-transparent"
+                        onclick="openBuyNowModal('{{ $listing->id }}')"
+                        style="background-color: blue; color: white;">Credit
                         Now</button>
                 @endif
             </div>
@@ -47,7 +76,7 @@
                             </div>
                             <div class="flex justify-end p-6 bg-gray-50">
                                 <button type="submit" class=" btn btn-success" style="font-weight: 700 !important; ">
-                                    <i class="fa-solid fa-shopping-cart"></i> Buy Now
+                                    <i class="fa-solid fa-shopping-cart"></i> Credit Now
                                 </button>
                             </div>
                         </form>

@@ -11,15 +11,10 @@ class Listing extends Model
 
 
     public function scopeFilter($query, array $filters){
-        if($filters['sizes'] ?? false){
-            $query->where('sizes', 'like', '%' . request('sizes') . '%');
-        }
-
         if($filters['search'] ?? false){
             $query->where('product', 'like', '%' . request('search') . '%')
             ->orWhere('category', 'like', '%' . request('search').'%')
-            ->orWhere('description', 'like', '%' . request('search').'%')
-            ->orWhere('sizes', 'like', '%' . request('search').'%');
+            ->orWhere('description', 'like', '%' . request('search').'%');
         }
     }
 
@@ -31,5 +26,9 @@ class Listing extends Model
     //Relationship to Cart
     public function cart(){
         return $this->belongsTo(Carts::class);
+    }
+
+    public function sale(){
+        return $this->belongsTo(sales::class);
     }
 }

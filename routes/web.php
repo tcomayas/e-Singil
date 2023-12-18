@@ -57,6 +57,11 @@ Route::get('/debtor-payment', [ListingController::class, 'showDebtorProfile'])->
 Route::post('/debtor-payment/{id}', [ListingController::class, 'partialPayment'])->name('partialpayment');
 Route::post('/full-payment/{id}', [ListingController::class, 'fullPayment'])->name('full');
 Route::get('/users/authenticate', [ListingController::class, 'index']);
+Route::post('/notification/clear', [ListingController::class, 'clearNotif'])->name('clearNotif');
+Route::get('/debtor-notification', [ListingController::class, 'showNotification'])->name('showNotification');
+Route::post('/add/sales', [ListingController::class, 'addSales'])->name('addSales');
+Route::get('/sales', [ListingController::class, 'showSales']);
+// Route::get('/', [ListingController::class, 'totalRevenue'])->name('totalRevenue');
 
 // USER CONTROLLERS
 Route::get('/register', [UserController::class, 'create'])->middleware('guest');
@@ -67,7 +72,7 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 Route::get('/profile/show', [UserController::class, 'showProfile'])->middleware('auth');
 
 // CHART CONTROLLERS
-Route::get('/components/chart', [ChartController::class, 'index'])->middleware('auth');
+// Route::get('/', [ChartController::class, 'index'])->middleware('auth');
 
 //HOME CONTROLLERS
 Route::get('/redirect', [HomeController::class, 'index'])->middleware('auth');
