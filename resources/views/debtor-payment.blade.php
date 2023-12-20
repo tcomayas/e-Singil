@@ -20,7 +20,7 @@
             <div class="w-full p-5" style="max-height: 60vh; overflow-y: scroll; width: 85vw">
                 <h1 class="text-center bold" style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">DEBT LIST
                 </h1>
-                @if ($total_debt == null)
+                @if ($total_debt === 0)
                     <p class="mt-10 text-center">
                         No Active Debt.
                     </p>
@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                             @foreach ($carts as $cart)
-                                @if ($cart->status == 'Approve')
+                                @if ($cart->status == 'Approved')
                                     <tr>
                                         <td class="px-4 py-2 border-b">{{ $cart->listing->product }}</td>
                                         <td class="px-4 py-2 border-b">{{ $cart->listing->category }}</td>
@@ -93,6 +93,7 @@
                 <button type="button" class="float-right p-2 ml-2 btn btn-secondary" id="closeModal">Close</button>
                 <form method="POST" action="/debtor-payment/{{ $carts[0]->user->id }}" class="p-6">
                     @csrf
+                    {{ $carts[0]->user->id }}
                     <label for="payVal" class="block text-sm font-medium text-gray-700">Enter partial payment
                         amount:</label>
                     <input type="number" name="payVal" id="payVal"
@@ -119,9 +120,12 @@
             </div>
             <div
                 class="inline-block p-3 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:w-full sm:max-w-md">
-                <p class="text-center form-control">Fully paid debt?</p>
+                <p class="text-center form-control">Fully paid debt?
+                </p>
                 <div class="flex justify-between gap-5">
                     <form method="POST" action="/full-payment/{{ $carts[0]->user->id }}">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Paid by:</label>
+                        <input type="text" name="name" id="payVal" class="w-full border border-gray-100">
                         @csrf
                         <button type="submit">Yes</button>
 

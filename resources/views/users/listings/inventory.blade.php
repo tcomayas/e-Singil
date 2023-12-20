@@ -33,6 +33,7 @@
                             <th class="bg-gray-300 border border-black">Cost</th>
                             <th class="bg-gray-300 border border-black">Price</th>
                             <th class="bg-gray-300 border border-black">Expiry</th>
+                            <th class="bg-gray-300 border border-black">Date Purchased</th>
                             <th class="bg-gray-300 border border-black">Actions</th>
                         </tr>
                     </thead>
@@ -44,6 +45,7 @@
                                 <td class="border border-black">{{ $listing->quantity }}</td>
                                 <td class="border border-black">{{ $listing->cost }}</td>
                                 <td class="border border-black">{{ $listing->price }}</td>
+                                <td class="border border-black">{{ $listing->created_at }}</td>
                                 <td class="border border-black">{{ $listing->expiry }}</td>
                                 <td class="border border-black">
                                     @if ($listing->user_id == auth()->user()->id)

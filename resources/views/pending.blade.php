@@ -8,7 +8,7 @@
                 <x-card class="p-4 mb-4">
                     <h2 class="mb-4 text-2xl font-semibold">Pending Requests for {{ $userCarts->first()->user->name }}
                     </h2>
-                    <table class="w-full mb-4 text-center bg-white border border-gray-300">
+                    <table class="w-full mb-4 text-center border border-gray-300 bg-blueGray-50">
                         <thead class="bg-gray-300">
                             <tr>
                                 <th class="px-4 py-2 border-b">Product</th>
@@ -86,5 +86,27 @@
         function closeModal() {
             document.getElementById('myModal').classList.add('hidden');
         }
+
+
+        function bulkApprove() {
+            var selectedItems = document.querySelectorAll('input[name="selectedItems[]"]:checked');
+            var cartIds = Array.from(selectedItems).map(item => item.value);
+
+            if (cartIds.length > 0) {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/bulk-approve'; // Adjust the route as needed
+
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                form.innerHTML = `<input type="hidden" name="_token" value="${csrfToken}">
+                             ${cartIds.map(id => `<input type="hidden" name="cartIds[]" value="${id}">`).join('')}
+                             <button type="submit"></button>`;
+                document.body.appendChild(form);
+                form.submit();
+            } else {
+                alert('No items selected for bulk approval.');
+            }
+        }
     </script>
+
 </x-layout>

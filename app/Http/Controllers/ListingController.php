@@ -304,6 +304,9 @@ class ListingController extends Controller
     public function acceptPending(Request $request, $cartId){
         $cart = Carts::find($cartId);
 
+        $listing = Listing::all();
+        $notifs = Notification::all();
+
         if($request->status == "Approve"){
             $price = Listing::where('id', $cart->listing_id)->get('price');
             $total_debt = TotalDebt::where('user_id', $cart->user_id)->limit(1)->orderBy('created_at', 'desc')->get();
@@ -353,9 +356,8 @@ class ListingController extends Controller
                 }
 
             }
-            $listing = Listing::all();
-            $notifs = Notification::all();
             $message = "Your debt request for " . $cart->quantity . " pc/s of " .  $listing[0]->product . " has been approved.";
+
             $notif = Notification::create([
                 'user_id' => $cart->user_id,
                 'carts_id' => $cart->id,
@@ -363,12 +365,23 @@ class ListingController extends Controller
             ]);
             $notif->save();
 
+            return dd($notif);
+
             $carts = Carts::where('status', 'Pending')->get();
 
             return back()->with(['message' => 'Debt Request Approved!', 'icon' => 'success', 'title' => 'APPROVED!', 'carts' => $carts]);
         } elseif($request->status == "Cancel"){
             $cart->status = "Cancelled";
             $cart->save();
+
+            $message = "Your debt request for " . $cart->quantity . " pc/s of " .  $listing[0]->product . " has been cancelled.";
+            
+            $notif = Notification::create([
+                'user_id' => $cart->user_id,
+                'carts_id' => $cart->id,
+                'message' => $message
+            ]);
+            $notif->save();
 
             return back()->with(['message' => 'Debt Request Cancelled!', 'icon' => 'warning', 'title' =>
             'CANCELED']);
@@ -399,7 +412,7 @@ class ListingController extends Controller
     }
 
     //Full Payment
-    public function fullPayment($userId){
+    public function fullPayment(Request $request, $userId){
         $payment = Payment::where('user_id', $userId);
 
         $total_debt = TotalDebt::where('user_id', $userId)
@@ -414,6 +427,7 @@ class ListingController extends Controller
         $total_debt[0]->save();
 
         $payment = Payment::create([
+            'name' => $request->name,
             'user_id' => $userId,
             'payment' => $total_debt[0]->totaldebt
         ]);
@@ -459,6 +473,7 @@ class ListingController extends Controller
         $carts = Carts::with('listing')->where('user_id', $request->debtorId)->get();
         $user = User::with('total_debt')->where('id', $request->debtorId)->get();
         $total_debt = TotalDebt::with('user')->where('user_id', $request->debtorId)->where('status', 'Active')->get();
+
         $payments = Payment::with('user')->where('user_id', $request->debtorId)->get();
         $notifs = AdminNotification::all();
 
@@ -526,6 +541,16 @@ class ListingController extends Controller
         $notifs = AdminNotification::all();
 
         return view('/sales', ['sales' => $sales, 'notifs' => $notifs]);
+    }
+
+    public function bulkApprove(Request $request){
+        $cartIds = $request->input('cartIds', []);
+
+        foreach ($cartIds as $cartId) {
+            $this->acceptPending($request, $cartId);
+        }
+
+        return redirect()->back()->with(['message' => 'Bulk Approval Complete!', 'icon' => 'success', 'title' => 'BULK APPROVAL']);
     }
 
     //Compute Revenue

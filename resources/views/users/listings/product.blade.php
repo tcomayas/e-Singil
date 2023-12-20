@@ -32,7 +32,6 @@
                         <tr>
                             <th class="bg-gray-300 border border-black">Product</th>
                             <th class="bg-gray-300 border border-black">Quantity</th>
-                            <th class="bg-gray-300 border border-black">Sizes</th>
                             <th class="bg-gray-300 border border-black">Expiry</th>
                             <th class="bg-gray-300 border border-black">Actions</th>
                         </tr>
@@ -42,7 +41,6 @@
                             <tr>
                                 <td class="border border-black">{{ $listing->product }}</td>
                                 <td class="border border-black">{{ $listing->quantity }}</td>
-                                <td class="border border-black"><x-listing-tags :sizesCsv="$listing->sizes" /></td>
                                 <td class="border border-black">{{ $listing->expiry }}</td>
                                 <td class="border border-black">
                                     @if ($listing->user_id == auth()->user()->id)

@@ -58,7 +58,7 @@
     <title>e-Singil</title>
 </head>
 
-<body>
+<body :notifs='notifs'>
 
     @if (!request()->is('login', 'register'))
         <nav class="flex items-center justify-between shadow-md shadow-gray-400">

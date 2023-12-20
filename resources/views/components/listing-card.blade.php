@@ -38,6 +38,7 @@
             @if (auth()->check() && auth()->user()->id == '1')
                 <div class="text-xl font-bold text-center" id="quantity">QTY: {{ $listing->quantity }}</div>
             @endif
+            <div class="text-xl font-bold text-center" id="price">Qty: {{ $listing->quantity }}</div>
             <div class="text-xl font-bold text-center" id="price">₱{{ $listing->price }}</div>
             <div class="mt-4 text-lg" id="expiry">
                 <i class="fa-solid fa-calendar"></i>

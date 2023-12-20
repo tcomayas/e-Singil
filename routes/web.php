@@ -61,6 +61,8 @@ Route::post('/notification/clear', [ListingController::class, 'clearNotif'])->na
 Route::get('/debtor-notification', [ListingController::class, 'showNotification'])->name('showNotification');
 Route::post('/add/sales', [ListingController::class, 'addSales'])->name('addSales');
 Route::get('/sales', [ListingController::class, 'showSales']);
+Route::post('/bulk-approve', [ListingController::class, 'bulkApprove'])->name('bulk.approve');
+
 // Route::get('/', [ListingController::class, 'totalRevenue'])->name('totalRevenue');
 
 // USER CONTROLLERS
