@@ -1,26 +1,6 @@
     <x-layout :notifs='$notifs'>
         <div class="w-full p-3">
-            <div>
-                <form action="/debt">
-                    @csrf
-                    <div class="flex justify-end">
-                        <div class="relative flex mt-4 mb-4 border-2 border-gray-100 rounded-lg w-100">
-                            <div class="relative mx-2 top-4">
-                                <i class="z-20 text-gray-400 fa fa-search hover:text-gray-500"></i>
-                            </div>
-                            <input type="text" name="search"
-                                class="z-0 w-full pr-20 rounded-lg h-14 focus:shadow focus:outline-none"
-                                placeholder="Search Product..." />
-                            <div class="absolute top-2 right-2">
-                                <button type="submit"
-                                    class="w-20 h-10 text-black bg-blue-300 rounded-lg hover:bg-green-600 opacity-90">
-                                    Search
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+
             {{-- <div style="max-height: 400px; overflow-y: scroll; border-bottom: 1px solid gray;">
                 <table class="table w-full mt-5 text-center bg-white border border-gray-300" id="stickyTable">
                     <thead class="bg-gray-100" style="position: fixed;">

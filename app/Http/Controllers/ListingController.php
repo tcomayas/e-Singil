@@ -58,7 +58,9 @@ class ListingController extends Controller
     public function index(){
         $this->checkDueDate();
         $role = Auth::user()->role;
-        $listings = Listing::latest()->filter(request(['search', 'expiry', 'category', 'product', 'quantity']))->paginate(10);
+        $listings = Listing::latest()
+                ->filter(request(['search', 'expiry', 'category', 'product', 'quantity']))
+                ->paginate(10);
         $users = User::where('role', '0')->get();
         $total = TotalDebt::pluck('totaldebt')->sum();
         $totalSales = sales::sum(DB::raw('amount'));
@@ -199,6 +201,7 @@ class ListingController extends Controller
         return back()->with(['message' => "Product Updated Successfully!", 'icon' => 'success', 'title' => 'SUCCESS']);
     }
 
+    //Manage Items - Admin Side
     public function manage(){
         $notifs = AdminNotification::all();
         $listings = Listing::all();
@@ -356,7 +359,7 @@ class ListingController extends Controller
                 }
 
             }
-            $message = "Your debt request for " . $cart->quantity . " pc/s of " .  $listing[0]->product . " has been approved.";
+            $message = "Your debt request for " . $cart->quantity . " pc/s of " .  $cart->listing->product . " has been approved.";
 
             $notif = Notification::create([
                 'user_id' => $cart->user_id,
@@ -364,8 +367,6 @@ class ListingController extends Controller
                 'message' => $message
             ]);
             $notif->save();
-
-            return dd($notif);
 
             $carts = Carts::where('status', 'Pending')->get();
 
@@ -375,7 +376,7 @@ class ListingController extends Controller
             $cart->save();
 
             $message = "Your debt request for " . $cart->quantity . " pc/s of " .  $listing[0]->product . " has been cancelled.";
-            
+
             $notif = Notification::create([
                 'user_id' => $cart->user_id,
                 'carts_id' => $cart->id,
@@ -451,7 +452,7 @@ class ListingController extends Controller
     //Show History on Admin Side
     public function showHistory(){
         $carts = Carts::with('listing')
-            ->where('user_id', '!=', Auth::user()->id)
+            ->where('user_id', '!=', auth()->id())
             ->where('status', '!=' ,'Pending')
             ->get();
         $notifs = AdminNotification::all();
@@ -462,7 +463,10 @@ class ListingController extends Controller
 
     //Show Debtors' Profile on Admin Side
     public function showDebtorsProfile(){
-        $users = User::with('total_debt')->where('role', '0')->get();
+        $users = User::with('total_debt')
+                ->where('role', '0')
+                ->get();
+
         $notifs = AdminNotification::all();
 
         return view('debtor-profile', ['users' => $users, 'notifs' => $notifs]);
@@ -543,21 +547,32 @@ class ListingController extends Controller
         return view('/sales', ['sales' => $sales, 'notifs' => $notifs]);
     }
 
-    public function bulkApprove(Request $request){
-        $cartIds = $request->input('cartIds', []);
+    //Show Profile - Debtor Side
+    public function profileShow(Request $request){
+        // $carts = Carts::with('listing')->where('user_id', $request->debtorId)->get();
+        $user = User::with('total_debt')->where('id', auth()->id())->get();
+        $total_debt = TotalDebt::with('user')->where('user_id', $request->debtorId)->where('status', 'Active')->get();
 
-        foreach ($cartIds as $cartId) {
-            $this->acceptPending($request, $cartId);
+        // $payments = Payment::with('user')->where('user_id', $request->debtorId)->get();
+        // $notifs = AdminNotification::all();
+
+        if($total_debt == null || count($total_debt) == 0){
+            return view('debtor-payment', ['carts' => $carts, 'total_debt' => 0, 'payments' => $payments, 'notifs' => $notifs]);
         }
 
-        return redirect()->back()->with(['message' => 'Bulk Approval Complete!', 'icon' => 'success', 'title' => 'BULK APPROVAL']);
+        // Pass the user data to the view
+        return view('profile.show', ['total_debt' => $total_debt]);
     }
 
-    //Compute Revenue
-    // public function totalRevenue(){
-    //     $listings = Listing::all();
+    //Show GCash QR Code
+    public function showQrcode(){
+        return view('pay');
+    }
 
-    //     // return dd($listings);
-    // }
+    public function showLowStocks(){
+        $listings = Listing::all();
+        $notifs = AdminNotification::all();
+        return view('lowstocks', ['listings' => $listings, 'notifs' => $notifs]);
+    }
 
 }

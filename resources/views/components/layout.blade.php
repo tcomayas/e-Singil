@@ -162,7 +162,7 @@
                 <ul>
                     @auth
                         <li class="mt-5 mb-4">
-                            <a href="/" class="flex items-center text-dark hover:text-gray-300">
+                            <a href="/" class="flex items-center text-dark hover:text-gray-300 active:bg-blue-800">
                                 <span class="mr-2"><i class="fas fa-home"></i></span> HOME
                             </a>
                         </li>
@@ -212,6 +212,13 @@
                     <li class="mb-4">
                         <a href="/sales" class="flex items-center text-dark hover:text-gray-300">
                             <span class="mr-2"><i class="fa-solid fa-peso-sign"></i></span> SALES
+                        </a>
+                    </li>
+
+                    <li class="mb-4">
+                        <a href="/lowstocks" class="flex items-center text-dark hover:text-gray-300"
+                            style="font-size: 11px;">
+                            <span class="mr-2"><i class="fa-solid fa-arrow-trend-down"></i></span> LOW STOCKS
                         </a>
                     </li>
                 </ul>

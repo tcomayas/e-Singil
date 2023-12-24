@@ -93,7 +93,6 @@
                 <button type="button" class="float-right p-2 ml-2 btn btn-secondary" id="closeModal">Close</button>
                 <form method="POST" action="/debtor-payment/{{ $carts[0]->user->id }}" class="p-6">
                     @csrf
-                    {{ $carts[0]->user->id }}
                     <label for="payVal" class="block text-sm font-medium text-gray-700">Enter partial payment
                         amount:</label>
                     <input type="number" name="payVal" id="payVal"

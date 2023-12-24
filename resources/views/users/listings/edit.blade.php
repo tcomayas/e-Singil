@@ -11,7 +11,7 @@
             <div class="mb-6">
                 <label for="product" class="inline-block mb-2 text-lg">Product Name</label>
                 <input type="text" class="w-full p-2 border border-gray-200 rounded" name="product"
-                    value="{{ $listing->category }}" />
+                    value="{{ $listing->product }}" />
 
                 @error('product')
                     <p class="mt-1 text-xs text-red-500">{{ $message }}</p>

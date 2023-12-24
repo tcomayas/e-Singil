@@ -62,8 +62,8 @@ Route::get('/debtor-notification', [ListingController::class, 'showNotification'
 Route::post('/add/sales', [ListingController::class, 'addSales'])->name('addSales');
 Route::get('/sales', [ListingController::class, 'showSales']);
 Route::post('/bulk-approve', [ListingController::class, 'bulkApprove'])->name('bulk.approve');
-
-// Route::get('/', [ListingController::class, 'totalRevenue'])->name('totalRevenue');
+Route::get('/pay', [ListingController::class, 'showQrcode']);
+Route::get('/lowstocks', [ListingController::class, 'showLowStocks']);
 
 // USER CONTROLLERS
 Route::get('/register', [UserController::class, 'create'])->middleware('guest');

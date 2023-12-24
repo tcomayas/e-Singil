@@ -25,9 +25,6 @@
 
         <x-sidebar></x-sidebar>
         <div>
-            <div class="partial-search">
-                @include('partials._search')
-            </div>
             <div class="w-full p-5 bg-gray-100 shadow-md shadow-gray-400"
                 style="max-height: 60vh; overflow-y: scroll; width: 85vw">
                 <div class="overflow-x-auto">
@@ -61,7 +58,7 @@
             </div>
             <div class="w-full p-5 mt-10 bg-gray-100 shadow shadow-lg shadow-gray-400"
                 style="max-height: 60vh; overflow-y: scroll; width: 85vw">
-                <h1 class="text-center bold" style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">PAYMENT
+                <h1 class="text-center" style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">PAYMENT
                     LIST
                 </h1>
                 <table class="w-full text-center bg-white border border-gray-300">

@@ -22,12 +22,14 @@
                                     <p>₱{{ $cart->listing->price * $cart->quantity }}</p>
                                     <p>{{ $cart->created_at->diffForHumans() }}</p>
                                 </div>
-                                <form method="POST" action="/pending/{{ $cart->id }}">
-                                    @csrf
-                                    <input type="hidden" value="Cancel" name="status">
-                                    <button class="p-2 bg-red-400 rounded">CANCEL</button>
-                                </form>
                             </div>
+                            <form method="POST" action="/pending/{{ $cart->id }}"
+                                style="margin-left: 30%; margin-bottom: 5px;">
+                                @csrf
+                                <input type="hidden" value="Cancel" name="status">
+                                <button class="p-2 mx-auto text-white bg-red-400 rounded"
+                                    style="background-color: red;">CANCEL</button>
+                            </form>
                         </x-card>
                     @endforeach
                 @endif

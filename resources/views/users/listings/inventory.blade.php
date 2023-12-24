@@ -1,23 +1,4 @@
 <x-layout :notifs='$notifs'>
-    <form action="/users/listings/inventory">
-        @csrf
-        <div class="flex justify-end">
-            <div class="relative flex mt-4 mb-4 border-2 border-gray-100 rounded-lg w-100">
-                <div class="relative mx-2 top-4">
-                    <i class="z-20 text-gray-400 fa fa-search hover:text-gray-500"></i>
-                </div>
-                <input type="text" name="search"
-                    class="z-0 w-full pr-20 rounded-lg h-14 focus:shadow focus:outline-none"
-                    placeholder="Search Product..." />
-                <div class="absolute top-2 right-2">
-                    <button type="submit"
-                        class="w-20 h-10 text-black bg-blue-300 rounded-lg hover:bg-green-600 opacity-90">
-                        Search
-                    </button>
-                </div>
-            </div>
-        </div>
-    </form>
 
     @if (auth()->user())
         @if ($listings->isEmpty())
@@ -77,8 +58,8 @@
             </div>
 
             <div>
-                <button class="bottom-0 float-right p-2 mt-5 mr-5 font-bold text-white bg-blue-400"
-                    style="border-radius: 10px" onclick="openBuyNowModal('{{ $listing->id }}')">Add
+                <button class="bottom-0 p-2 mt-5 mb-5 mr-5 font-bold text-white bg-blue-400 hover:bg-green-500"
+                    style="border-radius: 10px;" onclick="openBuyNowModal('{{ $listing->id }}')">Add
                     Sales</button>
             </div>
             {{-- Add Sales Modal --}}

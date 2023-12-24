@@ -49,7 +49,7 @@
 
                     <div class="p-5 mt-5 text-center border shadow-md user-card border-gray">
                         <img src="{{ asset('storage/images/' . $user->photo) }}" alt="Photo" class="w-full mx-auto">
-                        <div class="flex flex-row gap-4 mt-5">
+                        <div class="flex flex-row gap-4 mt-5 ">
                             <div class="font-bold text-start">
                                 <h3>Name:</h3>
                                 <h3>Address:</h3>
@@ -69,11 +69,14 @@
                 <div>
                     <x-card class="p-3 text-center" id="totalDebt">
                         <h4>Total Debt</h4>
-                        @if (count($user->total_debt) != 0)
-                            <p class="font-bold">{{ $user->total_debt[0]->totaldebt }}</p>
-                        @else
-                            <p class="font-bold">0</p>
-                        @endif
+                        <p class="font-bold">DEBT: @if (count($user->total_debt) != 0)
+                                @if ($user->total_debt[count($user->total_debt) - 1]->status == 'Complete')
+                                    0
+                                @else
+                                    {{ $user->total_debt[count($user->total_debt) - 1]->totaldebt }}
+                                @endif
+                            @endif
+                        </p>
 
 
                     </x-card>

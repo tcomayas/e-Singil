@@ -9,7 +9,6 @@
     <div>
         <div class="flex justify-between mt-5">
             @if (auth()->user() && auth()->user()->id)
-                <x-revenue :listings='$listings' class="fixed-width"></x-revenue>
                 <x-total-sales :totalSales='$totalSales'></x-total-sales>
                 <x-debtor-count :users='$users' class="fixed-width"></x-debtor-count>
                 <x-product-count :listings='$listings' class="fixed-width"></x-product-count>

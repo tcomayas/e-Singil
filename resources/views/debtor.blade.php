@@ -44,9 +44,11 @@
 
             <div class="gap-5 mt-5 lg:grid lg:grid-cols-5 md:space-y-0">
                 @unless ($listings->isEmpty())
+                    {{-- @if ($listings->quantity >= 1) --}}
                     @foreach ($listings as $listing)
-                        <x-listing-card :listing="$listing" class="font-bold" id="card" style="margin-bottom: 10px" />
+                        <x-listing-card :listing="$listing" class="font-bold" id="card" style="margin-bottom: 10px; " />
                     @endforeach
+                    {{-- @endif --}}
                 @else
                     <p>No Product Found!</p>
                 @endunless

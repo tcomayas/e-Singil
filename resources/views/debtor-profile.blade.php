@@ -1,6 +1,5 @@
 <x-layout :notifs='$notifs'>
     <div class="flex flex-col gap-5 mt-5">
-        @include('partials._search')
         <div class="flex flex-row flex-wrap justify-center gap-5">
             @foreach ($users as $user)
                 <a href="{{ route('debtorpayment', ['debtorId' => $user->id]) }}">

@@ -8,43 +8,45 @@
                 <x-card class="p-4 mb-4">
                     <h2 class="mb-4 text-2xl font-semibold">Pending Requests for {{ $userCarts->first()->user->name }}
                     </h2>
-                    <table class="w-full mb-4 text-center border border-gray-300 bg-blueGray-50">
-                        <thead class="bg-gray-300">
-                            <tr>
-                                <th class="px-4 py-2 border-b">Product</th>
-                                <th class="px-4 py-2 border-b">Category</th>
-                                <th class="px-4 py-2 border-b">Quantity</th>
-                                <th class="px-4 py-2 border-b">Total Price</th>
-                                <th class="px-4 py-2 border-b">Date</th>
-                                <th class="px-4 py-2 border-b">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($userCarts as $cart)
-                                @if ($cart->status == 'Pending')
-                                    <tr>
-                                        <td class="px-4 py-2 border-b">{{ $cart->listing->product }}</td>
-                                        <td class="px-4 py-2 border-b">{{ $cart->listing->category }}</td>
-                                        <td class="px-4 py-2 border-b">{{ $cart->quantity }}</td>
-                                        <td class="px-4 py-2 border-b">{{ $cart->listing->price * $cart->quantity }}
-                                        </td>
-                                        <td class="px-4 py-2 border-b">{{ $cart->created_at }}</td>
-                                        <td class="px-4 py-2 border-b">
-                                            <div class="flex flex-row justify-between">
-                                                <button onclick="openModal({{ $cart->id }})"
-                                                    class="p-2 bg-blue-400 rounded">Approve</button>
-                                                <form method="POST" action="/pending/{{ $cart->id }}">
-                                                    @csrf
-                                                    <input type="hidden" value="Cancel" name="status">
-                                                    <button class="p-2 bg-red-400 rounded">CANCEL</button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div style="max-height: 100vh; overflow-y: scroll;">
+                        <table class="w-full mb-4 text-center border border-gray-300 bg-blueGray-50">
+                            <thead class="bg-gray-300">
+                                <tr>
+                                    <th class="px-4 py-2 border-b">Product</th>
+                                    <th class="px-4 py-2 border-b">Category</th>
+                                    <th class="px-4 py-2 border-b">Quantity</th>
+                                    <th class="px-4 py-2 border-b">Total Price</th>
+                                    <th class="px-4 py-2 border-b">Date</th>
+                                    <th class="px-4 py-2 border-b">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($userCarts as $cart)
+                                    @if ($cart->status == 'Pending')
+                                        <tr>
+                                            <td class="px-4 py-2 border-b">{{ $cart->listing->product }}</td>
+                                            <td class="px-4 py-2 border-b">{{ $cart->listing->category }}</td>
+                                            <td class="px-4 py-2 border-b">{{ $cart->quantity }}</td>
+                                            <td class="px-4 py-2 border-b">{{ $cart->listing->price * $cart->quantity }}
+                                            </td>
+                                            <td class="px-4 py-2 border-b">{{ $cart->created_at }}</td>
+                                            <td class="px-4 py-2 border-b">
+                                                <div class="flex flex-row justify-between">
+                                                    <button onclick="openModal({{ $cart->id }})"
+                                                        class="p-2 bg-blue-400 rounded">Approve</button>
+                                                    <form method="POST" action="/pending/{{ $cart->id }}">
+                                                        @csrf
+                                                        <input type="hidden" value="Cancel" name="status">
+                                                        <button class="p-2 bg-red-400 rounded">CANCEL</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </x-card>
             @endforeach
         @endif
